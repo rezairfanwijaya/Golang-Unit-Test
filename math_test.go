@@ -20,7 +20,3 @@ func TestAdd(t *testing.T) {
 	}
 
 }
-
-func add(i1, i2 int) {
-	panic("unimplemented")
-}
