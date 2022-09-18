@@ -68,7 +68,7 @@ func TestCar_Speed(t *testing.T) {
 			Speeder: SpeederType{
 				Speeder: &DI.TurboEngine{},
 			},
-			Expected: 9 0,
+			Expected: 90,
 		},
 	}
 
