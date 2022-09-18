@@ -103,9 +103,45 @@ func TestFindById(t *testing.T) {
 			actual, err := customer.FindById(testCase.Id, testCase.Customer)
 			if testCase.WantError {
 				assert.Equal(t, testCase.Want, err)
-			} else {
+			}else{
 				assert.Equal(t, testCase.Want, actual)
 			}
 		})
 	}
+}
+
+func BenchmarkCustomer(b *testing.B) {
+	
+	var customer c.Customer
+	datas := []c.Customer{
+		{
+			ID:      1,
+			Name:    "Cust 1",
+			Address: "Jakarta",
+			Age:     20,
+		}, {
+			ID:      2,
+			Name:    "Cust 2",
+			Address: "Surabaya",
+			Age:     17,
+		}, {
+			ID:      3,
+			Name:    "Cust 3",
+			Address: "Bandung",
+			Age:     23,
+		},
+	}
+
+	b.Run("Find by ID", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			customer.FindById(i, datas)
+		}
+	})
+
+	b.Run("Get All", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			customer.GetAll(datas)
+		}
+	})
+	
 }
