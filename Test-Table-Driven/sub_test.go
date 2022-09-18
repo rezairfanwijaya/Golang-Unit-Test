@@ -1,4 +1,4 @@
-package sub_test
+package testtabledriven_test
 
 import (
 	"testing"
