@@ -6,6 +6,7 @@ import (
 	DI "github.com/rezairfanwijaya/Golang-Unit-Test/Dependency-Injection"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestDefaultEngine_MaxSpeed(t *testing.T) {
@@ -96,4 +97,29 @@ func TestCar_Speed(t *testing.T) {
 			assert.Equal(t, testCase.Expected, actual)
 		})
 	}
+}
+
+// mock
+type MockEngine struct {
+	mock.Mock
+}
+
+func (me MockEngine) MaxSpeed() int {
+	args := me.Called()
+	return args.Get(0).(int)
+}
+
+func TestCar_Speed_WithMock(t *testing.T) {
+	// inisiasi mock
+	mock := new(MockEngine)
+	// new car
+	newCar := DI.Car{
+		Speeder: mock,
+	}
+
+	mock.On("MaxSpeed").Return(90)
+
+	actual := newCar.Speed()
+
+	assert.Equal(t, 90, actual)
 }
