@@ -46,6 +46,13 @@ func TestTurboEngine_MaxSpeed(t *testing.T) {
 	}
 }
 
+// fake
+type FakeEngine struct{}
+
+func (e FakeEngine) MaxSpeed() int {
+	return 5
+}
+
 func TestCar_Speed(t *testing.T) {
 	type SpeederType struct {
 		Speeder DI.Speeder
@@ -70,6 +77,13 @@ func TestCar_Speed(t *testing.T) {
 			},
 			Expected: 90,
 		},
+		{
+			Name: "speed should be 15 when use max speed less then 10",
+			Speeder: SpeederType{
+				Speeder: &FakeEngine{},
+			},
+			Expected: 15,
+		},
 	}
 
 	for _, testCase := range testCases {
@@ -78,6 +92,7 @@ func TestCar_Speed(t *testing.T) {
 				Speeder: testCase.Speeder.Speeder,
 			}
 			actual := newCar.Speed()
+			t.Log("ACTUAL : ", actual)
 			assert.Equal(t, testCase.Expected, actual)
 		})
 	}
